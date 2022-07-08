@@ -111,6 +111,32 @@ func ReplaceOne[T any](filter D, new_val T, opts ...*options.FindOneAndReplaceOp
 	return old_val, true
 }
 
+func UpdateOne[T any](filter D, upd D, opts ...*options.UpdateOptions) bool {
+	col := GetCollection[T]()
+	if col == nil {
+		return false
+	}
+	_, err := col.UpdateOne(ctx, filter, upd, opts...)
+	if err != nil {
+		logError[T]("UpdateOne", err)
+		return false
+	}
+	return true
+}
+
+func UpdateMany[T any](filter D, upd D, opts ...*options.UpdateOptions) bool {
+	col := GetCollection[T]()
+	if col == nil {
+		return false
+	}
+	_, err := col.UpdateMany(ctx, filter, upd, opts...)
+	if err != nil {
+		logError[T]("UpdateMany", err)
+		return false
+	}
+	return true
+}
+
 func Aggregate[T any, Ret any](pipeline A, opts ...*options.AggregateOptions) (ret []Ret, ok bool) {
 	col := GetCollection[T]()
 	if col == nil {
