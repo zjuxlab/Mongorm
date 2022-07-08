@@ -137,6 +137,7 @@ func UpdateMany[T any](filter D, upd D, opts ...*options.UpdateOptions) bool {
 	return true
 }
 
+// pipeline: bson.A or "Mongorm/PipelineBuilder".PB
 func Aggregate[T any, Ret any](pipeline A, opts ...*options.AggregateOptions) (ret []Ret, ok bool) {
 	col := GetCollection[T]()
 	if col == nil {
